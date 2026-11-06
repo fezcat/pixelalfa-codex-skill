@@ -60,6 +60,14 @@ The script uses Python's standard library to check the saved `active.png` and `c
 
 Both examples should pass with **439** removals for `active.png` and **326** for `cancelled.png`. A failed check produces a nonzero exit code. A change outside a mask reports its zero-based coordinate and the before and after RGBA values.
 
+The detection regression test also requires Python 3.12 and the .NET 10 SDK.
+
+```sh
+python tests/verify_detection.py
+```
+
+This test runs a source snapshot of the local automatic and mark-guided analysis on both original sprites. It compares their proposed pixels to the reviewed removal masks and checks previously reviewed outline and uncertain edge pixels. For `active.png`, the automatic pass proposes 438 pixels and the marked pass adds the remaining confirmed pixel to the combined selection. For `cancelled.png`, both passes propose the same 326 pixels. These tests cover the two supplied sprites and their recorded marks.
+
 ## Worked example with `cancelled.png`
 
 The source was a **128 × 128** sprite with dark blue background residue inside the artwork. The cleanup target was the residue. The sprite's outline and its edge shading were protected.
