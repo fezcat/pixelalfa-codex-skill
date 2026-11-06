@@ -38,6 +38,18 @@ To use the skill in an existing project, copy `.agents/skills/pixelalfa/` into t
 3. Inspect the proposed edit at high zoom. Check any uncertain edge pixels individually before applying a change.
 4. Export to a separate PNG and compare it with the source. A change mask, when available, defines where pixel differences are allowed.
 
+## Verify both examples locally
+
+With Python 3 installed, run this command from the repository root.
+
+```sh
+python scripts/verify_examples.py
+```
+
+The script uses Python's standard library to check the saved `active.png` and `cancelled.png` results against their reviewed masks. It checks the dimensions and compares all four 8-bit RGBA channels at every pixel outside each mask, including the RGB values of fully transparent pixels. Inside each mask, it checks that every marked pixel changed from visible to transparent black.
+
+Both examples should pass with **439** removals for `active.png` and **326** for `cancelled.png`. A failed check produces a nonzero exit code. A change outside a mask reports its zero-based coordinate and the before and after RGBA values.
+
 ## Worked example with `cancelled.png`
 
 The source was a **128 × 128** sprite with dark blue background residue inside the artwork. The cleanup target was the residue. The sprite's outline and its edge shading were protected.
