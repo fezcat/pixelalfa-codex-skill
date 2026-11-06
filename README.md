@@ -38,6 +38,36 @@ To use the skill in an existing project, copy `.agents/skills/pixelalfa/` into t
 3. Inspect the proposed edit at high zoom. Check any uncertain edge pixels individually before applying a change.
 4. Export to a separate PNG and compare it with the source. A change mask, when available, defines where pixel differences are allowed.
 
+## Worked example with `cancelled.png`
+
+The source was a **128 × 128** sprite with dark blue background residue inside the artwork. The cleanup target was the residue. The sprite's outline and its edge shading were protected.
+
+1. **Find the residue.** PixelAlfa's automatic scan grouped **326 interior background pixels** into one suggested selection. It also listed **eight single-pixel edge candidates** separately. Those candidates stayed unchecked.
+2. **Cross-check with marks.** Six Remove marks on background patches and two Protect marks on the outline, at `(43, 52)` and `(63, 53)`, produced the same 326-pixel selection at a tolerance of 55. The marked scan recovered three residues missed by an earlier 323-pixel pass.
+3. **Verify the export.** The test decoded the source and cleaned PNG as 8-bit RGBA, compared every pixel, and checked the differences against the review mask. The export also matched the previously reviewed result pixel for pixel.
+
+### RGBA difference report
+
+| Check | Result |
+| --- | ---: |
+| Source and output dimensions | 128 × 128 |
+| Pixels made fully transparent | 326 |
+| Pixels made visible | 0 |
+| Pixels with alpha changes | 326 |
+| Pixels with RGB changes | 326 |
+| Pixels with identical RGBA | 16,058 |
+| Changed pixels outside the review mask | 0 |
+| Differences from the previously reviewed result | 0 |
+
+The same 326 pixels appear in both channel totals because the cleanup cleared each one to transparent black. These zero-based samples show how the report distinguishes a removal from protected or uncertain outline pixels. Hex values use `RRGGBBAA` order.
+
+| Coordinate | Before | After | Review decision |
+| --- | --- | --- | --- |
+| `(53, 34)` | `#002E4DFF` | `#00000000` | Clear interior background residue |
+| `(43, 52)` | `#2C1B26FF` | `#2C1B26FF` | Preserve a marked outline pixel |
+| `(63, 53)` | `#231D23FF` | `#231D23FF` | Preserve a marked outline pixel |
+| `(42, 51)` | `#2E373EFF` | `#2E373EFF` | Leave an uncertain edge candidate unchecked |
+
 ## What to look for in the report
 
 - **Image dimensions** show whether the export kept the source pixel grid.
