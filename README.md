@@ -4,6 +4,8 @@
 
 Review pixel-art PNGs for stray background pixels, transparency issues, and outline damage. The `$pixelalfa` skill guides Codex through inspecting the source, proposing a small edit, and checking the result pixel by pixel with local PNG tools.
 
+This project is licensed under the [MIT License](LICENSE).
+
 ## Quick start
 
 Clone the repository, open the cloned folder in Codex, and invoke `$pixelalfa`.
