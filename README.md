@@ -74,6 +74,44 @@ The same 326 pixels appear in both channel totals because the cleanup cleared ea
 | `(63, 53)` | `#231D23FF` | `#231D23FF` | Preserve a marked outline pixel |
 | `(42, 51)` | `#2E373EFF` | `#2E373EFF` | Leave an uncertain edge candidate unchecked |
 
+## Worked example with `active.png`
+
+This **128 × 128** sprite had navy residue between the gold frame and the green play triangle. The cleanup scan selected **438 background pixels** and left **34 edge suggestions** unchecked. A second pass with five Remove marks in the navy patches and two Protect marks along the triangle added one confirmed residue pixel at `(61, 45)`. The combined selection cleared **439 pixels**.
+
+![Before, after, and difference mask for active.png. Navy patches disappear in the after image. Cyan marks the 439 cleared pixels against the preserved frame and triangle.](examples/active/comparison.png)
+
+The original and cleaned sprites are shown at 2× zoom. **Cyan** marks each cleared pixel. **Grayscale** shows the retained artwork for context. The downloadable mask marks the same 439 coordinates in opaque white.
+
+[Source PNG](examples/active/before.png) · [Cleaned PNG](examples/active/after.png) · [Exact removal mask](examples/active/removed-mask.png)
+
+### RGBA and contour checks
+
+The test compared all four 8-bit channels at every coordinate. It identified the frame and triangle from the source with a previously reviewed removal mask, then checked each object's contour separately. A contour pixel is a visible artwork pixel that borders a non-artwork pixel in any of its eight neighboring positions. This covers both the inner and outer boundaries of the gold frame.
+
+| Check | Result |
+| --- | ---: |
+| Source and output dimensions | 128 × 128 |
+| Pixels made fully transparent | 439 |
+| Pixels made visible | 0 |
+| Pixels with alpha changes | 439 |
+| Pixels with RGB changes | 439 |
+| Pixels with identical RGBA | 15,945 |
+| Changed pixels outside the reviewed mask | 0 |
+| Green triangle contour pixels checked | 152 |
+| Changed green triangle contour pixels | 0 |
+| Gold frame contour pixels checked | 636 |
+| Changed gold frame contour pixels | 0 |
+
+Coordinates start at zero in the top-left corner. Hex values use `RRGGBBAA` order.
+
+| Coordinate | Before | After | Review decision |
+| --- | --- | --- | --- |
+| `(61, 45)` | `#000111FF` | `#00000000` | Clear the additional background residue |
+| `(60, 45)` | `#267E75FF` | `#267E75FF` | Preserve the marked triangle edge |
+| `(61, 46)` | `#479C95FF` | `#479C95FF` | Preserve the marked triangle edge |
+| `(62, 20)` | `#ABA57DFF` | `#ABA57DFF` | Preserve the frame's outer edge |
+| `(62, 31)` | `#67490EFF` | `#67490EFF` | Preserve the frame's inner edge |
+
 ## What to look for in the report
 
 - **Image dimensions** show whether the export kept the source pixel grid.
