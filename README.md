@@ -1,5 +1,7 @@
 # PixelAlfa Codex Skill
 
+[![Verify RGBA examples](https://github.com/fezcat/pixelalfa-codex-skill/actions/workflows/verify-examples.yml/badge.svg?branch=main&event=push)](https://github.com/fezcat/pixelalfa-codex-skill/actions/workflows/verify-examples.yml)
+
 Review pixel-art PNGs for stray background pixels, transparency issues, and outline damage. The `$pixelalfa` skill guides Codex through inspecting the source, proposing a small edit, and checking the result pixel by pixel with local PNG tools.
 
 ## Quick start
@@ -40,7 +42,7 @@ To use the skill in an existing project, copy `.agents/skills/pixelalfa/` into t
 
 ## Verify both examples locally
 
-With Python 3 installed, run this command from the repository root.
+GitHub Actions runs the RGBA check on pushes and pull requests. With Python 3 installed, run the same check from the repository root.
 
 ```sh
 python scripts/verify_examples.py
