@@ -40,6 +40,14 @@ To use the skill in an existing project, copy `.agents/skills/pixelalfa/` into t
 3. Inspect the proposed edit at high zoom. Check any uncertain edge pixels individually before applying a change.
 4. Export to a separate PNG and compare it with the source. A change mask, when available, defines where pixel differences are allowed.
 
+## Contributing
+
+1. Create a branch from the latest `main` and commit your changes there.
+2. Run the [local RGBA verification](#verify-both-examples-locally).
+3. Open a pull request targeting `main`. Describe what changed and how you verified it.
+
+GitHub Actions runs the required **Check active.png and cancelled.png** check on the pull request. Both examples must pass before GitHub allows the pull request to merge. If `main` advances, update your branch and wait for the check to pass again.
+
 ## Verify both examples locally
 
 GitHub Actions runs the RGBA check on pushes and pull requests. With Python 3 installed, run the same check from the repository root.
