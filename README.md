@@ -42,7 +42,7 @@ To use the skill in an existing project, copy `.agents/skills/pixelalfa/` into t
 
 ## Verify both examples locally
 
-GitHub Actions runs the RGBA check on pushes and pull requests. With Python 3 installed, run the same check from the repository root.
+GitHub Actions runs the RGBA check on every push and pull request. With Python 3 installed, run the same check from the repository root.
 
 ```sh
 python scripts/verify_examples.py
