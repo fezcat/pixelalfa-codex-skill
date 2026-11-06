@@ -2,28 +2,15 @@
 
 ## Review background candidates
 
-Use **Auto Scan** to find background candidates. Use **Eyedropper** when the target color is known, or **Connected Area** to isolate a single patch. When a color is shared by the background and the sprite, paint examples with **Remove** and **Protect**, then run **Suggest from Marks**.
+Inspect the image at its native pixel grid. Group edge-connected background separately from disconnected patches inside the sprite. If the target color is known, compare it with representative pixels in the suspected patch. Check neighboring alpha and RGB values before expanding the selection.
 
-Turn on **Show Differences** to inspect the proposed edits. Clicking a candidate row frames it in the preview. The checkbox decides whether it will be applied. Record uncertain pixels with zero-based `(x, y)` coordinates from the top-left corner, their RGBA values, and the neighboring pixels that informed your decision.
+When the sprite and background share a color, use separate remove and protect coordinates or masks. Keep protect marks out of the proposed edit. Record uncertain pixels with zero-based `(x, y)` coordinates from the top-left corner, their RGBA values, and the neighboring pixels that informed your decision.
 
-| Control | Label in the Turkish editor |
-| --- | --- |
-| Cleanup tab | `Temizle` |
-| Auto Scan | `Otomatik tara` |
-| Eyedropper | `Damlalık` |
-| Connected Area | `Bağlı alan` |
-| Remove mark | `Temizle` |
-| Protect mark | `Koru` |
-| Suggest from Marks | `İşaretlerden öner` |
-| Show Differences | `Farkları göster` |
-| Apply Selection | `Seçimi uygula` |
+Preview candidates with an overlay or a separate mask so individual pixels remain inspectable. Label the colors used in the preview and keep its highlights separate from the exported image.
 
-## Edit marks and repair outlines
+## Repair outlines
 
-- The **Cleanup** and **Pixel** tabs place the brush toolbar to the left of the image. The green outline in **Protect** mode shows the pixels the brush will cover. Press **+** or **−** over the canvas to adjust the size. The Cleanup eraser removes marks. The Pixel eraser changes the image.
-- Use **Ctrl + mouse wheel** to zoom around the pointer. **Ctrl + Z** dismisses a pending preview first, then moves back through edit history.
-- In the **Outline** tab (`Kontur`), choose the inner boundary, outer boundary, or both. Check thickness, opacity, and softness in the live preview. Use **Inner Repair** (`İç onarım`) or **Outer Repair** (`Dış onarım`) for short breaks. Use **Bridge** (`Köprüle`) for a longer gap by selecting its start, midpoint, and end.
-- Save a `.pxa` project to keep the source pixels, marks, and layers. Export a PNG when you need the composited result of the visible layers.
+Identify the boundary being repaired and follow the adjacent pixel steps, thickness, and shading. For a short gap, preview the smallest repair that connects the neighboring segments. For a longer gap, use a start, midpoint, and end to define the intended path. Keep a separate output and verify the pixels outside the approved repair area.
 
 ## Verify an export locally
 

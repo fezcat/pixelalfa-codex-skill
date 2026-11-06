@@ -1,6 +1,6 @@
 # PixelAlfa Codex Skill
 
-Review pixel-art PNGs for stray background pixels, transparency issues, and outline damage. The `$pixelalfa` skill guides Codex through inspecting the source, proposing a small edit, and checking the result pixel by pixel. It works with local PNG tools and can guide the PixelAlfa editor when the app is already installed.
+Review pixel-art PNGs for stray background pixels, transparency issues, and outline damage. The `$pixelalfa` skill guides Codex through inspecting the source, proposing a small edit, and checking the result pixel by pixel with local PNG tools.
 
 ## Quick start
 
@@ -42,9 +42,15 @@ To use the skill in an existing project, copy `.agents/skills/pixelalfa/` into t
 
 The source was a **128 × 128** sprite with dark blue background residue inside the artwork. The cleanup target was the residue. The sprite's outline and its edge shading were protected.
 
-1. **Find the residue.** PixelAlfa's automatic scan grouped **326 interior background pixels** into one suggested selection. It also listed **eight single-pixel edge candidates** separately. Those candidates stayed unchecked.
+1. **Find the residue.** The local scan grouped **326 interior background pixels** into one suggested selection. It also listed **eight single-pixel edge candidates** separately. Those candidates stayed outside the edit.
 2. **Cross-check with marks.** Six Remove marks on background patches and two Protect marks on the outline, at `(43, 52)` and `(63, 53)`, produced the same 326-pixel selection at a tolerance of 55. The marked scan recovered three residues missed by an earlier 323-pixel pass.
 3. **Verify the export.** The test decoded the source and cleaned PNG as 8-bit RGBA, compared every pixel, and checked the differences against the review mask. The export also matched the previously reviewed result pixel for pixel.
+
+![Before, after, and difference mask for cancelled.png. Navy patches disappear in the after image. Cyan marks the 326 cleared pixels against the preserved grayscale outline.](examples/cancelled/comparison.png)
+
+The first two panels show the original and cleaned sprites over a checkerboard at 2× zoom. In the difference panel, **cyan** marks each cleared pixel and **grayscale** shows the retained artwork for context. The downloadable mask marks the 326 changes with opaque pixels and keeps every other coordinate transparent.
+
+[Source PNG](examples/cancelled/before.png) · [Cleaned PNG](examples/cancelled/after.png) · [Exact removal mask](examples/cancelled/removed-mask.png)
 
 ### RGBA difference report
 
@@ -76,7 +82,7 @@ The same 326 pixels appear in both channel totals because the cleanup cleared ea
 - **Uncertain candidates** list changes that still need review.
 - **Changes outside the mask** identify edits that reached beyond the allowed area. A zero count confirms that every decoded RGBA pixel outside the mask matches the source.
 
-The repository contains the skill instructions and its reference guide. PixelAlfa is an optional local editor. When using Codex alone, the available PNG reader determines which bit depths can be checked exactly.
+The available local PNG reader determines which bit depths Codex can check exactly.
 
 - [Skill instructions](.agents/skills/pixelalfa/SKILL.md)
-- [Editor controls, candidate review, and RGBA verification](.agents/skills/pixelalfa/references/editor.md)
+- [Candidate review, outline repair, and RGBA verification](.agents/skills/pixelalfa/references/editor.md)
